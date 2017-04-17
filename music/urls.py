@@ -10,7 +10,8 @@ from .views import (
     TrackDetailApiView,
     TrackListApiView,
     TrackUpdateApiView,
-    GenreListApiView
+    GenreListApiView,
+    GenreCreateApiView
     )
 
 urlpatterns = [
@@ -22,5 +23,7 @@ urlpatterns = [
 
 
     # genre api view
-    url(r'^genre/$',GenreListApiView.as_view(),name="genre-list")
+    url(r'^genre/$',GenreListApiView.as_view(),name="genre-list"),
+    url(r'^genre/create/$', GenreCreateApiView.as_view(), name='genre-create'),
+# 
 ]

@@ -3,8 +3,9 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import generics
-from models import Tracks,Genre,Music
+from models import Tracks
 import json
+from genre.models import Genre
 
 from django.db.models import Q
 from django.utils import timezone
@@ -139,6 +140,15 @@ class GenreListApiView(ListAPIView):
     queryset = Genre.objects.all()
     serializer_class =GenreSerializer
     permission_classes = [permissions.AllowAny]
+
+
+
+
+class GenreCreateApiView(CreateAPIView):
+    queryset = Genre.objects.all()
+    serializer_class = GenreSerializer
+    #permission_classes = [IsAuthenticated]
+
 
     # def create(self,request,*args,**kwargs):
     #   try:

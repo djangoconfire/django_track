@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #local-apps
     'music',
+    'genre',
     #third party library
     'rest_framework',
 ]
