@@ -66,7 +66,7 @@
                          </button>
                         
                         <button class="btn btn-success" data-toggle="modal"
-                            data-target="#update_genre">
+                            data-target="#update_genre" ng-click="vm.edit_genre(genre)">
                             <i class="fa fa-pencil" aria-hidden="true"></i>
                         </button>    
                                 
@@ -83,7 +83,7 @@
 <div id="update_genre" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->
-        <div class="modal-content">
+        <div class="modal-content" ng-submit="vm.update_genre(genreData)">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title"><b>Update</b> Genre</h4>
@@ -92,7 +92,7 @@
                 <form class="form-horizontal">
                     <div class="form-group">
                         <div class="col-sm-12">
-                            <input type="text" class="form-control" id="genre" name="genre" ng-bind="genre">
+                            <input type="text" class="form-control" id="genre" name="genre" ng-model="vm.genreData.name">
                         </div>
                     </div>
 

@@ -152,21 +152,30 @@
 
         }   
 
-        // function updatebook() {
-        //     var i;
-        //     for(i = 0; i < vm.track.length; i++)
-        //         if (vm.track[i].id === vm.edit.id)
-        //             break;
-        //     // No reason to send update request if objects are still the same
-        //     if (angular.equals(vm.track[i], vm.edit))
-        //         return;
 
-        //     var query = trackervice.book($localStorage.token).update({id: vm.edit.id}, {
-        //         book_name: vm.edit.book,
-        //         author_name: vm.edit.author_name,
-        //         isbn_code: vm.edit.isbn_code,
-        //         cover_image: vm.edit.cover_image
-        //     });
+        vm.edit_track=function(track){
+            vm.trackData=track;
+        }
+
+        vm.update_track=function(trackData) {
+
+            console.log(vm.trackData)
+
+            var i;
+            for(i = 0; i < vm.trackData.length; i++)
+                if (vm.track[i].id === vm.edit.id)
+                    break;
+            // No reason to send update request if objects are still the same
+            if (angular.equals(vm.track[i], vm.edit))
+                return;
+
+            var query = trackervice.track($localStorage.token).update({id: vm.edit.id}, {
+                title: vm.trackData.title,
+                genre: JSON.stringify(vm.trackData.genre),
+                rating: vm.trackData.rating
+            });
+
+        }    
 
         //     query.$promise
         //         .then(function(response) {

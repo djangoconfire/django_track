@@ -14,7 +14,7 @@
         vm.genre = '';
         // vm.genre_initialize=genre_initialize;
       
-        vm.genreData = {
+        vm.edit = {
             name: ''
         };
 
@@ -31,21 +31,6 @@
                     vm.genres = error;
                 });
         }
-
-        //    function genre_initialize(){
-        //       var query = genreService.genre($localStorage.token).query({id:$routeParams.genre_id});
-        //       console.log(query)
-        //         query.$promise
-        //         .then(function(data) {
-        //             console.log(data)
-        //             vm.genre = data.name;
-        //         }).catch(function(error) {
-        //             console.log(error);
-        //             vm.genre_list = error;
-        //         });
-
-
-        // }
 
 
         vm.add_new_genre=function(genreData){
@@ -78,6 +63,34 @@
                     console.log(error);
                 });
         }
+
+
+        vm.edit_genre=function(genreData){
+            vm.genreData=genreData;
+
+
+        }
+
+
+        vm.update_genre=function(genreData) {
+
+            console.log(vm.genreData)
+
+            var i;
+            for(i = 0; i < vm.genreData.length; i++)
+                if (vm.genreData[i].id === vm.edit.id)
+                    break;
+
+            console.log(vm.edit.id);    
+            // No reason to send update request if objects are still the same
+            if (angular.equals(vm.genreData[i], vm.edit))
+                return;
+
+            var query = genreService.genre($localStorage.token).update({id: vm.edit.id}, {
+                name: vm.edit.name
+            });
+
+        }  
 
     }
 })();
