@@ -1,0 +1,145 @@
+<!-- Search form  -->
+<div class="container">
+    <div class="box">
+        <div class="search-container">  
+            <form method="post" id="search-form">
+                <input type="text" ng-model="query" id="search" name="input-search" placeholder="Search Track(via Title)" />
+            </form>
+
+            <button type="button" class="btn btn-primary " style="float:right;" data-toggle="modal" data-target="#new_track"><span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Add New Track</button>
+        </div> 
+    </div> 
+</div>         
+
+
+<!-- Track Modal Pop up here -->
+<div id="new_track" class="modal fade" role="dialog" ng-init="vm.track_initialize()">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Enter New Track</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" ng-submit="vm.add_new_track(trackData)">
+                    <div class="form-group" >
+                        <div class="col-sm-12">
+                            <input type="text" name="track_title" class="form-control" placeholder="Track Title" id="track_title" ng-model="vm.trackData.title">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <select class="form-control" id="genre" ng-model="vm.trackData.genre" ng-options="genre.name for genre in vm.genre_list track by  genre.id" name="genre" multiple>
+                          
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <input  type="number" max="10" min="0" step=.5  class="form-control" name="rating" id="ratimg" ng-model="vm.trackData.rating">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Track list here  -->
+
+<div class="container">
+    <div class="table-container">
+        <table class="table table-responsive table-bordered">
+            <thead>
+                <tr>
+                    <th>Track</th>
+                    <th>Genre</th>
+                    <th>Rating</th>
+                    <th>Operations</th>
+                </tr>
+            </thead>
+            <tr ng-repeat="track in vm.tracks | orderBy:'-id' | filter:query ">
+                    
+                <td>
+                    <strong>{{track.title}}</strong>
+                </td>
+
+
+                <td>
+                    <strong>{{track.genre}}</strong>
+                </td>
+
+                <td>
+                    {{ track.rating }}
+                </td>
+                
+                <td>
+                    <center>
+                        <button class="btn btn-default" title="Delete">
+                            <a href="" ng-click="vm.deletebook(book)">
+                                <i class="fa fa-trash-o" aria-hidden="true"></i>
+                            </a>
+                        </button>
+                        &nbsp;&nbsp;
+                         </button>
+                        
+                            <a href="" ng-click="vm.copybook(book)"  data-toggle="modal"
+                            data-target="#updatebookModal"><i class="fa fa-pencil" aria-hidden="true"></i><div ng-bind="book.book"></div></a>
+                                
+        
+                       
+                    </center>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<!-- Track updated modal pop up -->
+<div id="update_track" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"><b>Update</b> Track</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" >
+                    <div class="form-group" >
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control" placeholder="Book Name" id="newbook" ng-model="vm.new.book">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control" placeholder="Author Name" id="author_name" ng-model="vm.new.author_name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control" placeholder="ISBN Code" id="isbn_code" ng-model="vm.new.isbn_code">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="note" class="col-sm-1 control-label">Cover Image:</label>
+                        <input type="file" style="margin-left:100px;line-height:40px;" placeholder="Cover Photo" id="cover_image" ng-model="vm.new.cover_image">
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" ng-click="vm.updatebook()">Update</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

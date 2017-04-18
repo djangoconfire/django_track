@@ -5,25 +5,20 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.urlpatterns import format_suffix_patterns
 
 from .views import (
-    TrackCreateApiView,
-    TrackDeleteApiView,
-    TrackDetailApiView,
-    TrackListApiView,
-    TrackUpdateApiView,
-    GenreListApiView,
-    GenreCreateApiView
+    TrackApiView,
+    GenreApiView,
     )
 
 urlpatterns = [
-    url(r'^track/$', TrackListApiView.as_view(), name='list'),
-    url(r'^track/create/$', TrackCreateApiView.as_view(), name='create'),
-    url(r'^track/(?P<pk>[0-9]+)/$', TrackDetailApiView.as_view(), name='detail'),
-    url(r'^track/(?P<pk>[0-9]+)/edit/$', TrackUpdateApiView.as_view(), name='update'),
-    url(r'^track/(?P<pk>[0-9]+)/delete/$', TrackDeleteApiView.as_view(), name='delete'),
-
-
+    url(r'^track/$', csrf_exempt(TrackApiView.as_view({'get':'list'})), name='track-list'),
+    url(r'^track/create/$',csrf_exempt(TrackApiView.as_view({'post':'create_new_track'})), name='create-track'),
+    url(r'^track/(?P<track_id>.+)$',csrf_exempt(TrackApiView.as_view({'get':'track_detail'})), name='track-detail'),
+    url(r'^track/update/$',csrf_exempt(TrackApiView.as_view({'post':'update'})), name='track-update'),
+    
     # genre api view
-    url(r'^genre/$',GenreListApiView.as_view(),name="genre-list"),
-    url(r'^genre/create/$', GenreCreateApiView.as_view(), name='genre-create'),
-# 
+    url(r'^genre/$',csrf_exempt(GenreApiView.as_view({'get': 'list'})),name="genre-list"),
+    url(r'^genre/create/$', csrf_exempt(GenreApiView.as_view({'post': 'create'})), name='genre-create'),
+    url(r'^genre/(?P<genre_id>.+)$',csrf_exempt(GenreApiView.as_view({'get': 'retrieve'})),name='genre-retrieve'),
+    url(r'^genre/update/$',csrf_exempt(GenreApiView.as_view({'post': 'update'})),name='update-genre'), 
+
 ]

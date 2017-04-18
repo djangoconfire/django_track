@@ -9,7 +9,7 @@
 
     function configFunction($routeProvider, STATIC_URL) {
         $routeProvider.when('/tracks', {
-            templateUrl: STATIC_URL + '/track/track_list.html',
+            templateUrl: STATIC_URL + 'track/track_list.html',
             controller: 'trackController',
             controllerAs: 'vm',
         });

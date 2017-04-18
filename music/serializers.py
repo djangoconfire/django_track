@@ -17,20 +17,12 @@ class GenreSerializer(ModelSerializer):
 
 
 class TrackSerializer(ModelSerializer):
-    genre    = SerializerMethodField()
     
     class Meta:
         model = Tracks
-        fields = ['title','rating','genre']
+        fields = ['title','rating']
 
 
-    
-
-    def get_genre(self, obj):
-        g_qs = Genre.objects.filter_by_instance(obj)
-        genres = GenreSerializer(g_qs, many=True).data
-        return genres
-    
 
 
 
