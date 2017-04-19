@@ -5,10 +5,10 @@
         .module('app.notify')
         .controller('NotifyController', NotifyController);
 
-    NotifyController.$inject = ['notifyService'];
+	    NotifyController.$inject = ['notifyService'];
 
-    function NotifyController(notifyService) {
-        var vm = this;
-        vm.notifyService = notifyService;
-    }
+	    function NotifyController(notifyService) {
+	        var vm = this;
+	        vm.notifyService = notifyService;
+	    }
 })();

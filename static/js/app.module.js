@@ -16,5 +16,6 @@
         'app.genre',
         'app.home',
         'app.notify',
+        // 'app.star',
     ]);
 })();

@@ -12,6 +12,47 @@
 </div>         
 
 
+<!-- Track list from Django rest Api -->
+<div class="container">
+    <div class="table-container">
+        <table class="table table-responsive table-bordered">
+            <thead>
+                <tr>
+                    <th>Track</th>
+                    <th>Genre</th>
+                    <th>Rating</th>
+                    <th>Operations</th>
+                </tr>
+            </thead>
+            <tr ng-repeat="track in vm.tracks | filter:query">
+                    
+                <td>
+                    <strong>{{track.title}}</strong>
+                </td>
+
+
+                <td ng-repeat="genre in track.genre">
+                    <strong>{{genre.name}}</strong>
+                </td>
+
+                <td>
+                    {{ track.rating }}
+                </td>
+                
+                <td>
+                    <center>   
+                        <button class="btn btn-success" data-toggle="modal"
+                            data-target="#update_track" ng-click="vm.update_track(track.id)">
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                        </button>          
+                    </center>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
 <!-- Add New Track Modal Pop up here -->
 <div id="new_track" class="modal fade" role="dialog" ng-init="vm.track_initialize()">
     <div class="modal-dialog">
@@ -54,44 +95,45 @@
 </div>
 
 
-<!-- Track list from Django rest Api -->
-<div class="container">
-    <div class="table-container">
-        <table class="table table-responsive table-bordered">
-            <thead>
-                <tr>
-                    <th>Track</th>
-                    <th>Genre</th>
-                    <th>Rating</th>
-                    <th>Operations</th>
-                </tr>
-            </thead>
-            <tr ng-repeat="track in vm.tracks | filter:query">
-                    
-                <td>
-                    <strong>{{track.title}}</strong>
-                </td>
+<!-- track update modal pop up -->
+<div id="update_track" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"><b>Update</b> Track</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal" ng-form name="vm.track_form">
+                    <div class="form-group" >
+                        <div class="col-sm-12">
+                            <input type="text" name="title" class="form-control" placeholder="Track Title" id="track_title" ng-model="title">
+                        </div>
+                    </div>
 
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <select class="form-control genre_list" id="genre"  ng-model="genre" name="genre" multiple ng-change="display()">
+                                <option ng-repeat="genre in genres track by genre.id" ng-value="genre.id" ng-selected="selected_genre.indexOf(genre.id)> -1" >{{genre.name}}</option>
+              
+                            </select>
+                        </div>
+                    </div>
 
-                <td ng-repeat="genre in track.genre">
-                    <strong>{{genre.name}}</strong>
-                </td>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <input  type="number" max="10" min="0" step=.5  class="form-control" name="rating" id="ratimg" ng-model="rating">
+                        </div>
+                    </div>
 
-                <td>
-                    {{ track.rating }}
-                </td>
-                
-                <td>
-                    <center>   
-                        <button class="btn btn-success" data-toggle="modal"
-                            data-target="#update_track" ng-click="vm.update_track(track.id)">
-                            <i class="fa fa-pencil" aria-hidden="true"></i>
-                        </button>          
-        
-                       
-                    </center>
-                </td>
-            </tr>
-        </table>
+                    <button type="submit" class="btn btn-primary" ng-click="vm.edit_track(track_form)">Submit</button>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
     </div>
 </div>

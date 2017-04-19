@@ -15,8 +15,8 @@
             controllerAs: 'vm',
         })
         .when('/update_track/:track_id/',{
-            templateUrl : STATIC_URL + 'track/update_track.html',
-            controller  : 'trackEditController',
+            templateUrl : STATIC_URL + 'track/track_list.html',
+            controller  : 'trackListController',
             controllerAs : 'vm',
             params:{
                 'track_id':null

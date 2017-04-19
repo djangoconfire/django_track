@@ -8,6 +8,7 @@
         'ngResource',
         'ngStorage',
         'ngMessages',
+        'angular-clipboard',
 
         // Custom modules
         'app.core',

@@ -9,9 +9,6 @@
 html {
     height: 100%;
 }
-.jumbotron {
-    
-}
 
 .modal-content {
     color: white;
@@ -58,6 +55,10 @@ td:first-child {
 thead {
     margin-top:60px;
     color: #fff;
+}
+
+th {
+  font-weight: bold;
 }
 
 
@@ -119,7 +120,7 @@ thead {
 .table-container{
     width:100%;
     height:100%;
-    max-width:600px;
+    max-width:900px;
     margin-left:auto;
     margin-right:auto;
     

@@ -5,16 +5,16 @@
         .module('app.notify')
         .service('notifyService', notifyService);
 
-    function notifyService() {
-        var vm = this;
+        function notifyService() {
+            var vm = this;
 
-        vm.message = '';
-        vm.showMessage = false;
-        vm.display = display;
+            vm.message = '';
+            vm.showMessage = false;
+            vm.display = display;
 
-        function display(m) {
-            vm.message = m;
-            vm.showMessage = true;
-        }
-    } 
+            function display(m) {
+                vm.message = m;
+                vm.showMessage = true;
+            }
+        } 
 })();
