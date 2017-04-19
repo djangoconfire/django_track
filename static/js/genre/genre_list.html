@@ -22,15 +22,15 @@
                 <h4 class="modal-title">Enter New Genre</h4>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal" data-ng-submit="vm.add_new_genre(genreData)">
+                <div class="form-horizontal" ng-form name="vm.genre_form">
                     <div class="form-group" >
                         <div class="col-sm-12">
-                            <input type="text" name="genre"  id="genre" class="form-control" placeholder="Enter genre name" ng-model="vm.genreData.name">
+                            <input type="text" name="genre"  id="genre" class="form-control" placeholder="Enter genre name" ng-model="genre_name">
                         </div>
                     </div>
 
-                     <button type="submit" class="btn btn-primary">Save</button>
-                </form>
+                     <button type="submit" class="btn btn-primary" ng-click="vm.add_new_genre(genre_form)">Save</button>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>

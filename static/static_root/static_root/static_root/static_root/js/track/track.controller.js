@@ -24,6 +24,8 @@
 
         track();
 
+        // get list of track
+
         function track() {
             var query = trackService.track($localStorage.token).query();
             query.$promise
@@ -32,12 +34,12 @@
                     vm.tracks = data;
                     console.log(data)
                 }).catch(function(error) {
-                    console.log(error);
                     vm.tracks = error;
                 });
         }
 
 
+        // Intiliaze the track
 
         function track_initialize(){
               var query = genreService.genre($localStorage.token).query();
@@ -59,60 +61,8 @@
 
         }
 
-        // function deletebook(book) {
-        //     var i;
-        //     for (i = 0; i < vm.track.length; i++)
-        //         if(vm.track[i].id === book.id)
-        //             break;
 
-        //     var query = trackervice.book($localStorage.token).delete({id: book.id});
-        //     query.$promise
-        //         .then(function(data) {
-        //             vm.track.splice(i, 1);
-        //         }).catch(function(error) {
-        //             console.log(error);
-        //         });
-        // }
-
-        // function add_new_track() {
-        //     console.log(vm.trackData)
-        //     // Error checking must have at least 'book' filled out
-        //     if (vm.trackData === '')
-        //         return;
-
-        //     vm.gen_list = $("#genre").select2('data')
-        //     vm.genre_list = []
-            
-        //     angular.forEach(vm.gen_list,function(value){
-        //         /*var genre_dict = {}*/
-        //         /*genre_dict.id = value.id*/
-                
-        //         vm.genre_list.push(value.id)
-        //     })
-            
-        //     console.log(genre_list);
-
-        //     var query = trackService.track($localStorage.token).save({
-        //         title: vm.trackData.title,
-        //         genre: vm.trackData.genre,
-        //         rating: vm.trackData.rating
-        //     });
-
-        //     console.log(query);
-
-        //     query.$promise
-        //         .then(function(data) {
-        //             vm.track.unshift(data);
-        //             $('#new_track').modal('hide');
-        //             notifyService.display('Added New Track');
-        //             $timeout(function() {
-        //                 notifyService.showMessage = false;
-        //             }, 3000);
-        //         })
-        //         .catch(function(error) {
-        //             console.log(error);
-        //         });
-        // }
+          // Add new track
 
         vm.add_new_track=function(trackData) {
             vm.add_track_disable=true
@@ -127,61 +77,86 @@
 
             console.log(vm.genre_list)
 
-              var query = trackService.track($localStorage.token).save({
+            var form_data= {
                 title: vm.trackData.title,
                 genre: JSON.stringify(vm.trackData.genre),
                 rating: vm.trackData.rating
-            });
+            };
 
-            console.log(query);
-
-            query.$promise
-                .then(function(data) {
-                    // vm.track.unshift(data);
-                    $('#new_track').modal('hide');
-                    notifyService.display('Added New Track');
-                    $timeout(function() {
-                        notifyService.showMessage = false;
-                    }, 3000);
-
-                    track();
-                })
-                .catch(function(error) {
-                    console.log(error);
-                });
-
-        }   
+            console.log(form_data);
 
 
-        vm.edit_track=function(track){
-            vm.trackData=track;
+            $http({
+                url:'/api/track/create/',
+                method:"post",
+                data:$.param(form_data),
+                headers:{
+                    "Content-Type": 'application/x-www-form-urlencoded'
+                }
+            }).then(function successCallback(response){
+                $('.genre_list').select2('val',"")
+                vm.title=undefined
+                vm.rating=undefined
+                vm.genre_list=undefined
+
+                vm.add_track_disable=false
+                notifyService.display("Track Added Successfully");
+            },function errorCallback(response){
+                $scope.add_track_disable=false
+                notifyService.display("Something went wrong");
+            })
+
         }
+  
 
-        vm.update_track=function(trackData) {
+        // // Delete track
 
-            console.log(vm.trackData)
+        // vm.deletetrack=function(track) {
+        //     var i;
+        //     for (i = 0; i < vm.track.length; i++)
+        //         if(vm.track[i].id === track.id)
+        //             break;
 
-            var i;
-            for(i = 0; i < vm.trackData.length; i++)
-                if (vm.track[i].id === vm.edit.id)
-                    break;
-            // No reason to send update request if objects are still the same
-            if (angular.equals(vm.track[i], vm.edit))
-                return;
+        //     var query = trackervice.book($localStorage.token).delete({id: track.id});
+        //     query.$promise
+        //         .then(function(data) {
+        //             vm.track.splice(i, 1);
+        //         }).catch(function(error) {
+        //             console.log(error);
+        //         });
+        // }
 
-            var query = trackervice.track($localStorage.token).update({id: vm.edit.id}, {
-                title: vm.trackData.title,
-                genre: JSON.stringify(vm.trackData.genre),
-                rating: vm.trackData.rating
-            });
+        
+      
+        //  Update the existing track
 
-        }    
+        // vm.edit_track=function(track){
+        //     vm.trackData=track;
+        // }
+
+        // vm.update_track=function(trackData) {
+
+        //     console.log(vm.track)
+
+        //     var i;
+        //     for(i = 0; i < vm.track.length; i++)
+        //         if (vm.track[i].id === vm.edit.id)
+        //             break;
+        //     // No reason to send update request if objects are still the same
+        //     if (angular.equals(vm.track[i], vm.edit))
+        //         return;
+
+        //     var query = trackervice.track($localStorage.token).update({id: vm.edit.id}, {
+        //         title: vm.track.title,
+        //         genre: JSON.stringify(vm.track.genre),
+        //         rating: vm.track.rating
+        //     });   
 
         //     query.$promise
         //         .then(function(response) {
         //             vm.track[i] = vm.edit;
-        //             $('#updatebookModal').modal('hide');
-        //             notifyService.display('Updated book');
+        //             $('#update_track').modal('hide');
+        //             notifyService.display('Track updated successfully');
         //             $timeout(function() {
         //                 notifyService.showMessage = false;
         //             }, 3000);
@@ -191,8 +166,8 @@
         //         });
         // }
 
-        // function copybook(book) {
-        //     vm.edit = angular.copy(book);
+        // vm.copytrack=function(track) {
+        //     vm.edit = angular.copy(track);
         // }
     }
 })();

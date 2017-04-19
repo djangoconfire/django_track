@@ -30,9 +30,8 @@ class TrackApiView(ModelViewSet):
     queryset = Tracks.objects.all()
     serializer_class = TrackSerializer
     permission_classes = [permissions.AllowAny]
-    pagination_class = TrackPageNumberPagination #PageNumberPagination
 
-    def list(self,request):
+    def list(self,request,*args,**kwargs):
         print 'fetching track data'
         track_obj = Tracks.objects.all()
         track_list = []
@@ -51,14 +50,13 @@ class TrackApiView(ModelViewSet):
             track_dict['genre'] = genre_list
             track_list.append(track_dict)
 
-        return Response({"message":"Success","tracklist":track_list},status=status.HTTP_200_OK)
+        return Response({"message":"Success","results":track_list},status=status.HTTP_200_OK)
 
 
-    def create_new_track(self,request):
+    def create_new_track(self,request,*args,**kwargs):
         print 'inside create new track'
-        print request.POST.get('form_data')
         try:
-            title = request.POST['track_title']
+            title = request.POST['title']
             print title
             rating = request.POST['rating']
             genre_list = request.POST.get('genre')
@@ -94,7 +92,7 @@ class TrackApiView(ModelViewSet):
                 genre_list.append(genre_dict)
             track_dict['genre']= genre_list
 
-            return Response({"message":"Success","track_detail":track_dict})
+            return Response({"message":"Success","results":track_dict})
         except:
             return Response({"message":"Something went wrong"},status=status.HTTP_400_BAD_REQUEST)
 
@@ -132,7 +130,7 @@ class GenreApiView(ModelViewSet):
     def create(self,request,*args,**kwargs):
         print 'adding new genre'
         try:
-            name = request.POST['genre']
+            name = request.POST['genre_name']
             Genre.objects.create(name=name)
             return Response({"message":"Genre created"},status=status.HTTP_200_OK)
         except:
@@ -145,7 +143,7 @@ class GenreApiView(ModelViewSet):
             genre_dict = {}
             genre_dict['id'] = genre_obj.id
             genre_dict['name'] = genre_obj.name
-            return Response({"message":"Genre retrieve","genre_detail":genre_dict},status=status.HTTP_200_OK)
+            return Response({"message":"Genre retrieve","results":genre_dict},status=status.HTTP_200_OK)
         except:
             return Response({"message":"Invalid genre"},status=status.HTTP_200_OK)
 
