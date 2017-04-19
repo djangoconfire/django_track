@@ -5,9 +5,9 @@
         .module('app.genre')
         .controller('genreController', genreController);
 
-    genreController.$inject = ['$location', '$localStorage','$http', '$timeout', 'genreService','$routeParams', 'notifyService','BASE_URL'];
+    genreController.$inject = ['$http','$location', '$localStorage', '$timeout', 'genreService','$routeParams', 'notifyService','BASE_URL'];
 
-    function genreController($location, $localStorage, $timeout, $http, genreService,$routeParams, notifyService,BASE_URL) {
+    function genreController( $http,$location, $localStorage, $timeout, genreService,$routeParams, notifyService,BASE_URL) {
         var vm = this;
 
 

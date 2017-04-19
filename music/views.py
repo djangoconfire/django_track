@@ -56,6 +56,7 @@ class TrackApiView(ModelViewSet):
 
     def create_new_track(self,request):
         print 'inside create new track'
+        print request.POST.get('form_data')
         try:
             title = request.POST['track_title']
             print title

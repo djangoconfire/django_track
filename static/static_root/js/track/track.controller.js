@@ -5,12 +5,10 @@
         .module('app.track')
         .controller('trackController', trackController);
 
-    // 'isLoggedIn' is passed from the config.route.js
-    trackController.$inject = ['$location', '$localStorage','$http', '$timeout', 'trackService', 'genreService', 'notifyService','BASE_URL'];
+    trackController.$inject = ['$http','$location', '$localStorage', '$timeout', 'trackService', 'genreService', 'notifyService','BASE_URL'];
 
-    function trackController($location, $localStorage, $timeout, $http,trackService,genreService, notifyService,BASE_URL) {
+    function trackController($http,$location, $localStorage, $timeout,trackService,genreService, notifyService,BASE_URL) {
         var vm = this;
-
 
         vm.track = '';
 
@@ -24,8 +22,7 @@
 
         track();
 
-        // get list of track
-
+        // get list of track from Api
         function track() {
             var query = trackService.track($localStorage.token).query();
             query.$promise
@@ -39,7 +36,6 @@
 
 
         // Intiliaze the track
-
         function track_initialize(){
               var query = genreService.genre($localStorage.token).query();
                 query.$promise
@@ -51,35 +47,31 @@
                     vm.genre_list = error;
                 });
 
-                    $("#genre").select2({
-                      tags: true,
-                      tokenSeparators: [',', ' ']
-                    })
+                $("#genre").select2({
+                    tags: true,
+                    tokenSeparators: [',', ' ']
+                })
+            }
 
-
-
-        }
-
-
-          // Add new track
-
+        
+        // Add new track
         vm.add_new_track=function(trackData) {
             
-            // vm.gen_list = $("#genre").select2('data')
-            // vm.genre_list = []
+            vm.gen_list = $("#genre").select2('data')
+            vm.genre_list = []
             
-            // angular.forEach(vm.gen_list,function(value){
-            //     vm.genre_list.push(value.id)
+            angular.forEach(vm.gen_list,function(value){
+                vm.genre_list.push(value.id)
                 
-            // })
+            })  
 
-            // console.log(vm.genre_list)
+            console.log(vm.genre_list)
 
 
 
             var form_data= {
                 title: vm.trackData.title,
-                genre: JSON.stringify(vm.trackData.genre),
+                genre: JSON.stringify(vm.genre_list),
                 rating: vm.trackData.rating
             };
 
@@ -91,80 +83,19 @@
 
             $http({
                 method: 'POST',
-                url: 'http://localhost:8000/api/track/create/',
-                data:$.param(form_data),
+                url: BASE_URL.URL +'/api/track/create/',
+                data:{form_data:form_data},
                 headers:{
                     "Content-Type": 'application/x-www-form-urlencoded'
-                }
-            }).then(function successCallback(response){
-                $('#new_track').modal('hide');
-                notifyService.display("Track Added Successfully");
-            },function errorCallback(response){
-                notifyService.display("Something went wrong");
+                    }
+                }).then(function successCallback(response){
+                    $('#new_track').modal('hide');
+                    notifyService.display("Track Added Successfully");
+                },function errorCallback(response){
+                    notifyService.display("Something went wrong");
             })
 
         }
-  
 
-        // // Delete track
-
-        // vm.deletetrack=function(track) {
-        //     var i;
-        //     for (i = 0; i < vm.track.length; i++)
-        //         if(vm.track[i].id === track.id)
-        //             break;
-
-        //     var query = trackervice.book($localStorage.token).delete({id: track.id});
-        //     query.$promise
-        //         .then(function(data) {
-        //             vm.track.splice(i, 1);
-        //         }).catch(function(error) {
-        //             console.log(error);
-        //         });
-        // }
-
-        
-      
-        //  Update the existing track
-
-        // vm.edit_track=function(track){
-        //     vm.trackData=track;
-        // }
-
-        // vm.update_track=function(trackData) {
-
-        //     console.log(vm.track)
-
-        //     var i;
-        //     for(i = 0; i < vm.track.length; i++)
-        //         if (vm.track[i].id === vm.edit.id)
-        //             break;
-        //     // No reason to send update request if objects are still the same
-        //     if (angular.equals(vm.track[i], vm.edit))
-        //         return;
-
-        //     var query = trackervice.track($localStorage.token).update({id: vm.edit.id}, {
-        //         title: vm.track.title,
-        //         genre: JSON.stringify(vm.track.genre),
-        //         rating: vm.track.rating
-        //     });   
-
-        //     query.$promise
-        //         .then(function(response) {
-        //             vm.track[i] = vm.edit;
-        //             $('#update_track').modal('hide');
-        //             notifyService.display('Track updated successfully');
-        //             $timeout(function() {
-        //                 notifyService.showMessage = false;
-        //             }, 3000);
-        //         })
-        //         .catch(function(error) {
-        //             console.log(error);
-        //         });
-        // }
-
-        // vm.copytrack=function(track) {
-        //     vm.edit = angular.copy(track);
-        // }
     }
 })();
