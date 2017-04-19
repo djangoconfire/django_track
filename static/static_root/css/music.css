@@ -18,7 +18,7 @@ html {
 .table-container{
     margin-top:40px;
 }
-/*
+*
 table {
      border-collapse: separate;
      border-spacing: 0;
@@ -29,7 +29,7 @@ td {
   padding: 10px 15px;
 
 }
-
+/*
 thead {
     margin-top:20px;
     color: #fff;

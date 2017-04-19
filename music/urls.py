@@ -6,7 +6,9 @@ from rest_framework.urlpatterns import format_suffix_patterns
 
 from .views import (
     TrackApiView,
-    GenreApiView,
+    GenreListApiView,
+    GenreDetailApiView,
+    GenreCreateApiView,
     )
 
 urlpatterns = [
@@ -16,9 +18,9 @@ urlpatterns = [
     # url(r'^track/update/$',csrf_exempt(TrackApiView.as_view({'post':'update'})), name='track-update'),
     
     # genre api view
-    url(r'^genre/$',csrf_exempt(GenreApiView.as_view({'get': 'list'})),name="genre-list"),
-    url(r'^genre/create/$', csrf_exempt(GenreApiView.as_view({'post': 'create'})), name='genre-create'),
-    # url(r'^genre/(?P<genre_id>.+)$',csrf_exempt(GenreApiView.as_view({'get': 'retrieve'})),name='genre-retrieve'),
+    url(r'^genre/$',GenreListApiView.as_view(),name="genre-list"),
+    url(r'^genre/create/$', GenreCreateApiView.as_view(), name='genre-create'),
+    url(r'^genre/(?P<pk>\d+)$',GenreDetailApiView.as_view(),name='genre-detail')
     # url(r'^genre/update/$',csrf_exempt(GenreApiView.as_view({'post': 'update'})),name='update-genre'), 
 
 ]

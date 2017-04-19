@@ -14,38 +14,64 @@ from rest_framework.filters import (
         SearchFilter,
         OrderingFilter,
     )
+
 from rest_framework.generics import (
+    CreateAPIView,
+    ListCreateAPIView,
+    DestroyAPIView,
+    ListAPIView, 
+    UpdateAPIView,
     RetrieveAPIView,
-    RetrieveUpdateAPIView
-    )
+    RetrieveUpdateAPIView,
+    RetrieveUpdateDestroyAPIView
+)
 
 from .pagination import TrackLimitOffsetPagination, TrackPageNumberPagination
 from serializers import TrackSerializer,GenreSerializer
 
-class GenreApiView(ModelViewSet):
+class GenreListApiView(ListCreateAPIView):
     queryset = Genre.objects.all()
     serializer_class = GenreSerializer
     permission_classes = [permissions.AllowAny]
+    pagination_class = TrackPageNumberPagination
 
-    def create(self,request,*args,**kwargs):
-        print 'adding new genre'
-        try:
-            name = request.POST['genre_name']
-            Genre.objects.create(name=name)
-            return Response(status=status.HTTP_200_OK)
-        except:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+class GenreCreateApiView(CreateAPIView):
+    queryset = Genre.objects.all()
+    serializer_class = GenreSerializer
+    permission_classes = [permissions.AllowAny]    
 
-    # def get_genre(self,request,*args,**kwargs):
+class GenreDetailApiView(RetrieveUpdateDestroyAPIView):
+    queryset = Genre.objects.all()
+    serializer_class = GenreSerializer
+    permission_classes = [permissions.AllowAny] 
+    lookup_field='pk'  
+
+
+class GenreDeleteApiView(DestroyAPIView):
+    queryset = Genre.objects.all()
+    serializer_class = GenreSerializer
+    lookup_field = 'pk'     
+
+    # def create(self,request,*args,**kwargs):
+    #     print 'adding new genre'
     #     try:
-    #         genre_dict={}
-    #         genre_id = kwargs['genre_id']
-    #         genre_instance = Genre.objects.get(id=genre_id)
-    #         genre_dict['id'] = genre_instance.id
-    #         genre_dict['name'] = genre_instance.name
-    #         return Response({"results":genre_dict},status=status.HTTP_200_OK)
-    #     except:
+    #         name = request.POST['genre_name']
+    #         Genre.objects.create(name=name)
     #         return Response(status=status.HTTP_200_OK)
+    #     except:
+    #         return Response(status=status.HTTP_400_BAD_REQUEST)
+
+    def get_genre(self,request,*args,**kwargs):
+        print 'inside getting genre'
+        try:
+            genre_dict={}
+            genre_id = kwargs['genre_id']
+            genre_instance = Genre.objects.get(id=genre_id)
+            genre_dict['id'] = genre_instance.id
+            genre_dict['name'] = genre_instance.name
+            return Response({"results":genre_dict},status=status.HTTP_200_OK)
+        except:
+            return Response(status=status.HTTP_200_OK)
 
 
     # def update(self,request,*args,**kwargs):

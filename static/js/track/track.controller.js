@@ -3,11 +3,11 @@
 
     angular
         .module('app.track')
-        .controller('trackListController', trackListController);
+        .controller('trackController', trackController);
 
-        trackListController.$inject = ['$http','$location','$routeParams', '$localStorage', '$timeout', 'trackService', 'genreService', 'notifyService','BASE_URL'];
+        trackController.$inject = ['$http','$location','$routeParams', '$localStorage', '$timeout', 'trackService', 'genreService', 'notifyService','BASE_URL'];
 
-        function trackListController($http,$location, $localStorage,$routeParams,$timeout,trackService,genreService, notifyService,BASE_URL) {
+        function trackController($http,$location, $localStorage,$routeParams,$timeout,trackService,genreService, notifyService,BASE_URL) {
             var vm = this;
             
             vm.track = '';
@@ -55,13 +55,12 @@
 
             // Add new Track
             vm.add_new_track=function(track_form) {
-            
                 console.log(vm.track_form)
                 if(vm.track_form.$valid){
-                    vm.gen_list = $("#genre").select2('data')
+                    vm.genredata_list = $("#genre").select2('data')
                     vm.genre_list = []
                 
-                    angular.forEach(vm.gen_list,function(value){
+                    angular.forEach(vm.genredata_list,function(value){
                         vm.genre_list.push(value.id)
                     
                     })
@@ -84,7 +83,6 @@
                             "Content-Type": 'application/x-www-form-urlencoded'
                         }
                     }).then(function successCallback(response){
-                        vm.add_track_disable=false
                         $('#new_track').modal('hide');
                         notifyService.display("Track Added Successfully");
                         $timeout(function() {
@@ -93,8 +91,7 @@
 
                         track();
                     },function errorCallback(response){
-                        vm.add_track_disable=false
-                        notifyService.display("Something went wrong");
+                        notifyService.display("Error occured");
                     })
 
                 }
@@ -103,8 +100,6 @@
 
             // edit track initialization
              
-
-
             // update existing track
             vm.edit_track=function(track_form){
                 
@@ -130,12 +125,10 @@
                                 "Content-Type": 'application/x-www-form-urlencoded'
                                 }
                         }).then(function successCallback(response){
-                                vm.add_track_disable=false
                                 $('#update_track').modal('hide');
                                 notifyService.display("Track Updated Successfully");
                             },function errorCallback(response){
-                                vm.add_track_disable=false
-                                notifyService.display("Something went wrong");
+                                notifyService.display("Error occured");
                         })
                     }
 

@@ -1,4 +1,4 @@
-<!-- Search form  -->
+
 <div class="container">
     <div class="box">
 
@@ -6,13 +6,8 @@
     </div> 
 </div>         
 
-<!-- 
- <div class="toaster_position">
-    <toaster-container toaster-options="{'time-out': 10000}"></toaster-container>
-</div>
- -->
 
-<!-- Track Modal Pop up here -->
+<!-- Add New Genre Modal Pop up here -->
 <div id="new_genre" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->
@@ -39,9 +34,7 @@
     </div>
 </div>
 
-<!-- Track list here  -->
-
-
+<!-- Genre list fetching from rest api  -->
 <div class="container">
     <div class="table-container">
         <table class="table table-responsive table-bordered">
@@ -68,9 +61,7 @@
                         <button class="btn btn-success" data-toggle="modal"
                             data-target="#update_genre" ng-click="vm.edit_genre(genre)">
                             <i class="fa fa-pencil" aria-hidden="true"></i>
-                        </button>    
-                                
-        
+                        </button>   
                        
                     </center>
                 </td>
@@ -79,7 +70,7 @@
     </div>
 </div>
 
-<!-- Track updated modal pop up -->
+<!-- Genre updated modal pop up -->
 <div id="update_genre" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->

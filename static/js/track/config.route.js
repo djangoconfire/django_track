@@ -11,16 +11,8 @@
         $routeProvider
         .when('/tracks', {
             templateUrl: STATIC_URL + 'track/track_list.html',
-            controller: 'trackListController',
+            controller: 'trackController',
             controllerAs: 'vm',
-        })
-        .when('/update_track/:track_id/',{
-            templateUrl : STATIC_URL + 'track/track_list.html',
-            controller  : 'trackListController',
-            controllerAs : 'vm',
-            params:{
-                'track_id':null
-              }
         })
 
           // $locationProvider.html5Mode({
