@@ -20,7 +20,6 @@ from django.views.generic import TemplateView
 from django.views.decorators.csrf import ensure_csrf_cookie
 
 from rest_framework.authtoken import views
-from django.views.static import serve
 from django.conf import settings
 
 urlpatterns = [
@@ -33,5 +32,9 @@ urlpatterns = [
     #                            namespace='rest_framework')),
     # url(r'^api-token-auth/', views.obtain_auth_token),
 
-    url(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
+]
+
+
+urlpatterns +=[
+        url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
 ]

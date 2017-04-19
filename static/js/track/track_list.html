@@ -66,15 +66,15 @@
                     <th>Operations</th>
                 </tr>
             </thead>
-            <tr ng-repeat="track in vm.tracks | orderBy:'-id' | filter:query ">
+            <tr ng-repeat="track in vm.tracks">
                     
                 <td>
                     <strong>{{track.title}}</strong>
                 </td>
 
 
-                <td>
-                    <strong>{{track.genre}}</strong>
+                <td ng-repeat="genre in track.genre">
+                    <strong>{{genre.name}}</strong>
                 </td>
 
                 <td>

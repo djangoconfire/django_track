@@ -33,6 +33,7 @@ class TrackApiView(ModelViewSet):
     pagination_class = TrackPageNumberPagination #PageNumberPagination
 
     def list(self,request):
+        print 'fetching track data'
         track_obj = Tracks.objects.all()
         track_list = []
         for tracks in track_obj:

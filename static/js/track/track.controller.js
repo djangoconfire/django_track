@@ -6,9 +6,9 @@
         .controller('trackController', trackController);
 
     // 'isLoggedIn' is passed from the config.route.js
-    trackController.$inject = ['$location', '$localStorage','$http', '$timeout', 'trackService', 'genreService', 'notifyService'];
+    trackController.$inject = ['$location', '$localStorage','$http', '$timeout', 'trackService', 'genreService', 'notifyService','BASE_URL'];
 
-    function trackController($location, $localStorage, $timeout, $http,trackService,genreService, notifyService) {
+    function trackController($location, $localStorage, $timeout, $http,trackService,genreService, notifyService,BASE_URL) {
         var vm = this;
 
 
@@ -30,8 +30,7 @@
             var query = trackService.track($localStorage.token).query();
             query.$promise
                 .then(function(data) {
-                    console.log(data);
-                    vm.tracks = data;
+                    vm.tracks = data.tracklist;
                     console.log(data)
                 }).catch(function(error) {
                     vm.tracks = error;
@@ -65,17 +64,18 @@
           // Add new track
 
         vm.add_new_track=function(trackData) {
-            vm.add_track_disable=true
             
-            vm.gen_list = $("#genre").select2('data')
-            vm.genre_list = []
+            // vm.gen_list = $("#genre").select2('data')
+            // vm.genre_list = []
             
-            angular.forEach(vm.gen_list,function(value){
-                vm.genre_list.push(value.id)
+            // angular.forEach(vm.gen_list,function(value){
+            //     vm.genre_list.push(value.id)
                 
-            })
+            // })
 
-            console.log(vm.genre_list)
+            // console.log(vm.genre_list)
+
+
 
             var form_data= {
                 title: vm.trackData.title,
@@ -85,24 +85,21 @@
 
             console.log(form_data);
 
+            console.log('after form_data')
+
+            console.log(BASE_URL.URL + '/api/track/create/')
 
             $http({
-                url:'/api/track/create/',
-                method:"post",
+                method: 'POST',
+                url: 'http://localhost:8000/api/track/create/',
                 data:$.param(form_data),
                 headers:{
                     "Content-Type": 'application/x-www-form-urlencoded'
                 }
             }).then(function successCallback(response){
-                $('.genre_list').select2('val',"")
-                vm.title=undefined
-                vm.rating=undefined
-                vm.genre_list=undefined
-
-                vm.add_track_disable=false
+                $('#new_track').modal('hide');
                 notifyService.display("Track Added Successfully");
             },function errorCallback(response){
-                $scope.add_track_disable=false
                 notifyService.display("Something went wrong");
             })
 

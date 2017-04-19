@@ -46,10 +46,8 @@
                 url: BASE_URL.URL + '/api/genre/create/',
                 method:"POST",
                 data:form_data,
-                headers:{
-                    "Content-Type": 'application/x-www-form-urlencoded'
-                }
             }).then(function successCallback(response){
+                $('#new_genre').modal('hide');
                 notifyService.display("Genre Added Successfully");
             },function errorCallback(response){
                 notifyService.display("Something went wrong");

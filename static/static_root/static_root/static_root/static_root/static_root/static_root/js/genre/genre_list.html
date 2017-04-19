@@ -1,0 +1,108 @@
+<!-- Search form  -->
+<div class="container">
+    <div class="box">
+
+            <button type="button" class="btn btn-primary " style="float:right;" data-toggle="modal" data-target="#new_genre"><span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Add New Genre</button>
+    </div> 
+</div>         
+
+<!-- 
+ <div class="toaster_position">
+    <toaster-container toaster-options="{'time-out': 10000}"></toaster-container>
+</div>
+ -->
+
+<!-- Track Modal Pop up here -->
+<div id="new_genre" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Enter New Genre</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" data-ng-submit="vm.add_new_genre(genreData)">
+                    <div class="form-group" >
+                        <div class="col-sm-12">
+                            <input type="text" name="genre_name" class="form-control" placeholder="Enter genre name" ng-model="vm.genreData.name">
+                        </div>
+                    </div>
+
+                     <button type="submit" class="btn btn-primary">Save</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Track list here  -->
+
+
+<div class="container">
+    <div class="table-container">
+        <table class="table table-responsive table-bordered">
+            <thead>
+                <tr>
+                    <th>Genre</th>
+                    <th>Operations</th>
+                </tr>
+            </thead>
+            <tr ng-repeat="genre in vm.genres">
+                <td>
+                    <strong>{{genre.name}}</strong>
+                </td>
+                <td>
+                    <center>
+                        <button class="btn btn-danger" title="Delete">
+                            <a href="" ng-click="vm.deletebook(book)">
+                                <i class="fa fa-trash-o" aria-hidden="true"></i>
+                            </a>
+                        </button>
+                        &nbsp;
+                         </button>
+                        
+                        <button class="btn btn-success" data-toggle="modal"
+                            data-target="#update_genre">
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                        </button>    
+                                
+        
+                       
+                    </center>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<!-- Track updated modal pop up -->
+<div id="update_genre" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"><b>Update</b> Genre</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control" id="genre" name="genre" ng-bind="genre">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
