@@ -20,6 +20,12 @@
                 rating: '',
             };
 
+            vm.edit_track_data = {
+                title: '',
+                genre:  '',
+                rating: '',
+            };
+
             track();
 
             // get list of track from Api
@@ -98,71 +104,75 @@
             
             }
 
-            // edit track initialization
-             
+
             // update existing track
-            vm.edit_track=function(track_form){
+            vm.update_track=function(track_edit_form){
+
+                var genre_data=[]
+                    angular.forEach($("#genre").val(),function(value){
+                        vm.genre_data.push(Number(value))
+                    })
                 
-                var genre_list=[]
-                angular.forEach($("#genre").val(),function(value){
-                    genre_list.push(Number(value))
-                })
-                
-                vm.add_track_disable=true
-                if(vm.track_form.$valid){
+                if(vm.track_edit_form.$valid){
                     var form_data = 
-                        {'title':vm.track_form.title.$viewValue,
-                        'rating':vm.track_form.rating.$viewValue,
-                        'genre':JSON.stringify(genre_list),
-                        'track_id':$routeParams.track_id
+                        {'title':vm.track_edit_form.title.$viewValue,
+                        'rating':vm.track_edit_form.rating.$viewValue,
+                        'genre':JSON.stringify(vm.genre_data),
+                        'track_id':vm.track_id
                     }
+
+                    console.log(form_data)
             
                     $http({
                         url:BASE_URL+"/api/track/update/",
                         method:"post",
-                        data:$.param(from_data),
+                        data:$.param(form_data),
                         headers:{
                                 "Content-Type": 'application/x-www-form-urlencoded'
                                 }
                         }).then(function successCallback(response){
                                 $('#update_track').modal('hide');
                                 notifyService.display("Track Updated Successfully");
+                                $timeout(function() {
+                                notifyService.showMessage = false;
+                                }, 2000);
+
+                                track();
                             },function errorCallback(response){
                                 notifyService.display("Error occured");
                         })
                     }
 
-                }      
+                }
+
+ 
 
 
-            vm.update_track=function(track_id){
-                $http({
-                    url:BASE_URL+'/api/genre',
-                    method:'get'
-                }).then(function successCallback(response){
-                    console.log('inside update_track')
-                    console.log(response)
-                    vm.genres = response.data.results   
-                    
-                })
+             // initialize edit  track form 
+            vm.edit_track=function(track_id){
 
                 $http({
-                    url:BASE_URL+'/api/track/'+track_id,
-                    method:'get'
-                }).then(function successCallback(response){
-                    console.log(response.data)
-                    vm.track_detail = response.data.results
-                    vm.track_name=vm.track_detail.name
-                    vm.rating=Number(vm.track_detail.rating)
-                    vm.sel_genre=vm.track_detail.genre
-                    vm.selected_genre = []
-                    angular.forEach(vm.sel_genre,function(value){
-                        vm.selected_genre.push(value.pk)
-                    });
+                    url: BASE_URL+'/api/track/'+track_id,
+                    method:'get',
+                    }).then(function successCallback(response){
+                        console.log(response.data.results)
+                        vm.track_edit_data= response.data.results
+                        console.log(vm.track_edit_data.genre)
+                        vm.track_id=vm.track_edit_data.id
+                        vm.name=vm.track_edit_data.name
+                        vm.rating=Number(vm.track_edit_data.rating)
+                        vm.genre_data=vm.track_edit_data.genre
+                        vm.genre_selected = []
+                        angular.forEach(vm.genre_data,function(value){
+                            vm.genre_selected.push(value.pk)
+                        });
+                            
+                    },function errorCallback(response){
+                        notifyService.display("Error occured");
+                    })
+                }
 
-                })
-     
-            }
+                // dropdown change event 
 
         }
 })();
