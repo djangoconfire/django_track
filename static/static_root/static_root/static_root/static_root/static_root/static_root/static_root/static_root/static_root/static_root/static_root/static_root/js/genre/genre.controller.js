@@ -12,6 +12,12 @@
 
             vm.genre = '';
 
+            vm.edit={
+                name : ''
+            }
+
+            // vm.updateGenre = updateGenre;
+
             genre();
 
             // showing genre_list from api
@@ -27,38 +33,94 @@
 
 
             // Adding new genre
-            vm.add_new_genre=function(genre_form){
 
-                if(vm.genre_form.$valid){
-                    var form_data = {
-                        genre_name: vm.genre_form.genre.$viewValue
-                    };
+            vm.add_new_genre=function(GenreData){
 
-                    // console.log(form_data)
+                var query = genreService.genre($localStorage.token).save({
+                    name: vm.GenreData.name,
+                });
 
-                    $http({
-                        url: BASE_URL +'/api/genre/create/',
-                        method:"POST",
-                        data:$.param(form_data),
-                        headers:{
-                                "Content-Type": 'application/x-www-form-urlencoded'
-                            }
-                    }).then(function successCallback(response){
+                query.$promise
+                    .then(function(data) {
                         $('#new_genre').modal('hide');
-                        notifyService.display("Genre Added Successfully");
+                        notifyService.display('Added New Genre Successfully');
                         $timeout(function() {
-                                notifyService.showMessage = false;
-                            }, 2000);
+                            notifyService.showMessage = false;
+                        }, 2000);
 
-                            genre();
-                        },function errorCallback(response){
-                            notifyService.display("Something went wrong");
-                        })
+                        genre();
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    });
+                }
+
+            
+
+            // update genre 
+
+            vm.updateGenre=function(name) {
+                alert('inside update genre');
+                var i;
+                for(i = 0; i < vm.genres.length; i++)
+                    if (vm.genres[i].id === vm.edit.id){
+                        var query = genreService.genre($localStorage.token).update({id: vm.edit.id}, {
+                            name: vm.name
+                        });
+
+                        query.$promise
+                            .then(function(response) {
+                                vm.genres[i] = vm.edit;
+                                $('#update_genre').modal('hide');
+                                notifyService.display('Updated Genre Successfully');
+                                $timeout(function() {
+                                    notifyService.showMessage = false;
+                                }, 2000);
+
+                                genre();
+                            })
+                            .catch(function(error) {
+                                notifyService.display('Error occured');
+                            });
+                        }
                     }
 
-                
-                }     
 
-            }
+            vm.copygenre=function(genre) {
+                vm.name=genre.name;
+                vm.edit = angular.copy(genre);
+                console.log(vm.edit);
+                } 
+
+
+            // delete genre
+            vm.delete_genre=function(genreData) {
+                alert('inside deleting genre')
+                console.log(vm.genres)
+                console.log(genreData.id)
+                var i;
+                for (i = 0; i < vm.genres.length; i++)
+                    if(vm.genres[i].id === genreData.id){
+                        var query = genreService.genre($localStorage.token).delete({id: genreData.id});
+                        console.log(query)
+                        query.$promise
+                        .then(function(data) {
+                            console.log(data);
+                            vm.genres.splice(i, 1);
+                            notifyService.display('Genre Deleted Successfully');
+                                $timeout(function() {
+                                    notifyService.showMessage = false;
+                                }, 2000);
+
+                                genre();
+                            })
+                            .catch(function(error) {
+                                notifyService.display('Error occured');
+                            });
+                        }
+
+                    } 
+
+        }
 
 })();
