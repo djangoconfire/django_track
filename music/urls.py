@@ -17,12 +17,13 @@ urlpatterns = [
     url(r'^genre/$',GenreListApiView.as_view(),name="genre-list"),
     url(r'^genre/create/$', GenreCreateApiView.as_view(), name='genre-create'),
     url(r'^genre/(?P<pk>\d+)$',GenreDetailApiView.as_view(),name='genre-detail'),
+
     
     # track api view urls
     url(r'^track/$',csrf_exempt(TrackApiView.as_view({'get':'list'})), name='track-list'),
     url(r'^track/create/$',csrf_exempt(TrackApiView.as_view({'post':'create_new_track'})), name='create-track'),
     url(r'^track/update/$',csrf_exempt(TrackApiView.as_view({'post':'update'})), name='track-update'),
-    
+    url(r'^track/(?P<track_id>.+)$',csrf_exempt(TrackApiView.as_view({'get': 'track_detail'})),name="track-detail")
     
      
 

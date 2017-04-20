@@ -114,25 +114,48 @@ class TrackApiView(ModelViewSet):
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
+    def track_detail(self,request,*args,**kwargs):
+        print 'inside track detail'
+        try:
+            track_data = {}
+            track_id = kwargs['track_id']
+            track_instance = Tracks.objects.get(id=track_id)
+            track_data['id']=track_instance.id
+            track_data['name']= track_instance.title
+            track_data['rating']= track_instance.rating
+            music_instance = Music.objects.filter(track=track_instance)
+            genre_list = []
+            for genre in music_instance:
+                genre_data = {}
+                genre_data['pk'] = genre.genre.id
+                genre_data['name'] = genre.genre.name
+                genre_list.append(genre_data)
+            track_data['genre']= genre_list
+
+            return Response({"results":track_data})
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        
+
 
 
     def update(self,request,*args,**kwarsg):
         print 'inside updating track data'
         try:
             title = request.POST['title']
+            print title
             rating = request.POST['rating']
             track_id = request.POST['track_id']
             track_instance= Tracks.objects.get(id=track_id)
             genres_data = request.POST['genre']
             genres_data = json.loads(genres_data)
-            Music.objects.filter(track=track_obj).delete()
             track_instance.title = title
             track_instance.rating = rating
 
-            for genres in genres_list:
+            for genre in genres_data:
                 try:
-                    genre_obj = Genre.objects.get(id=genres)
-                    Music.objects.create(track=track_instance,genre=genre_instance)
+                    genre_instance = Genre.objects.get(id=genre)
+                    Music.objects.create(track=track_instance,genre=genre_instance).save()
                 except:
                     pass
             track_instance.save()
