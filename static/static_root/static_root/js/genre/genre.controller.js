@@ -5,9 +5,9 @@
         .module('app.genre')
         .controller('genreController', genreController);
 
-        genreController.$inject = ['$http','$location', '$localStorage', '$timeout', 'genreService','$routeParams', 'notifyService','BASE_URL'];
+        genreController.$inject = ['$http','$location','$window', '$localStorage', '$timeout', 'genreService','$routeParams', 'notifyService','BASE_URL'];
 
-        function genreController( $http,$location, $localStorage, $timeout, genreService,$routeParams, notifyService,BASE_URL) {
+        function genreController( $http,$location, $window,$localStorage, $timeout, genreService,$routeParams, notifyService,BASE_URL) {
             var vm = this;
 
             vm.genre = '';
@@ -17,6 +17,10 @@
             }
 
             // vm.updateGenre = updateGenre;
+
+            vm.reloadRoute = function() {
+                $window.location.reload();
+            }
 
             genre();
 
@@ -60,6 +64,8 @@
             // update genre 
 
             vm.updateGenre=function(name) {
+
+
                 alert('inside update genre');
                 var i;
                 for(i = 0; i < vm.genres.length; i++)
