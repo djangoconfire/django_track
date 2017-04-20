@@ -89,6 +89,10 @@
                             "Content-Type": 'application/x-www-form-urlencoded'
                         }
                     }).then(function successCallback(response){
+                        $('#genre').select2('val',"")
+                        vm.title=undefined
+                        vm.rating=undefined
+                        vm.genre_list=undefined
                         $('#new_track').modal('hide');
                         notifyService.display("Track Added Successfully");
                         $timeout(function() {
@@ -108,11 +112,15 @@
             // update existing track
             vm.update_track=function(track_edit_form){
 
+                console.log(vm.track_edit_form);
+                console.log('eeeeeeeeeeeeeeee')
                 var genre_data=[]
                     angular.forEach($("#genre").val(),function(value){
                         vm.genre_data.push(Number(value))
                     })
                 
+                console.log(vm.genre_data)
+
                 if(vm.track_edit_form.$valid){
                     var form_data = 
                         {'title':vm.track_edit_form.title.$viewValue,
@@ -173,6 +181,11 @@
                 }
 
                 // dropdown change event 
+                vm.update=function(item){
+                    console.log(item);
+                }
+
+
 
         }
 })();
