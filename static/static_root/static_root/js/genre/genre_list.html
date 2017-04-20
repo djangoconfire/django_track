@@ -6,36 +6,10 @@
     </div> 
 </div>         
 
-
-<!-- Add New Genre Modal Pop up here -->
-<div id="new_genre" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Enter New Genre</h4>
-            </div>
-            <div class="modal-body">
-                <div class="form-horizontal" ng-form name="vm.genre_form">
-                    <div class="form-group" >
-                        <div class="col-sm-12">
-                            <input type="text" name="genre"  id="genre" class="form-control" placeholder="Enter genre name" ng-model="genre_name">
-                        </div>
-                    </div>
-
-                     <button type="submit" class="btn btn-primary" ng-click="vm.add_new_genre(genre_form)">Save</button>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <!-- Genre list fetching from rest api  -->
+
 <div class="container">
+    <h2>Genre List</h2>
     <div class="table-container">
         <table class="table table-responsive table-bordered">
             <thead>
@@ -50,16 +24,14 @@
                 </td>
                 <td>
                     <center>
-                        <button class="btn btn-danger" title="Delete">
-                            <a href="" ng-click="vm.deletebook(book)">
+                        <button class="btn btn-danger" ng-click="vm.delete_genre(genre)">
                                 <i class="fa fa-trash-o" aria-hidden="true"></i>
-                            </a>
                         </button>
                         &nbsp;
                          </button>
                         
                         <button class="btn btn-success" data-toggle="modal"
-                            data-target="#update_genre" ng-click="vm.edit_genre(genre)">
+                            data-target="#update_genre" ng-click="vm.copygenre(genre)">
                             <i class="fa fa-pencil" aria-hidden="true"></i>
                         </button>   
                        
@@ -70,11 +42,40 @@
     </div>
 </div>
 
+
+
+<!-- Add New Genre Modal Pop up here -->
+<div id="new_genre" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Enter New Genre</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" ng-submit="vm.add_new_genre(GenreData)">
+                    <div class="form-group" >
+                        <div class="col-sm-12">
+                            <input type="text" name="genre"  id="genre" class="form-control" placeholder="Enter genre name" ng-model="vm.GenreData.name">
+                        </div>
+                    </div>
+
+                     <button type="submit" class="btn btn-primary">Save</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Genre updated modal pop up -->
 <div id="update_genre" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->
-        <div class="modal-content" ng-submit="vm.update_genre(genreData)">
+        <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title"><b>Update</b> Genre</h4>
@@ -83,15 +84,13 @@
                 <form class="form-horizontal">
                     <div class="form-group">
                         <div class="col-sm-12">
-                            <input type="text" class="form-control" id="genre" name="genre" ng-model="vm.genreData.name">
+                            <input type="text" class="form-control" id="genre" name="genre" ng-model="vm.name">
                         </div>
                     </div>
-
-                    <button type="submit" class="btn btn-primary">Update</button>
-                </form>
+                </form>    
             </div>
-
             <div class="modal-footer">
+                <button type="button" class="btn btn-primary" ng-click="vm.updateGenre(name)">Update</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
             </div>
         </div>
