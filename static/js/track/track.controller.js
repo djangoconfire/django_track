@@ -20,6 +20,12 @@
                 rating: '',
             };
 
+            vm.edit_track_data = {
+                title: '',
+                genre:  '',
+                rating: '',
+            };
+
             track();
 
             // get list of track from Api
@@ -98,8 +104,6 @@
             
             }
 
-            // edit track initialization
-             
             // update existing track
             vm.edit_track=function(track_form){
                 
@@ -108,7 +112,6 @@
                     genre_list.push(Number(value))
                 })
                 
-                vm.add_track_disable=true
                 if(vm.track_form.$valid){
                     var form_data = 
                         {'title':vm.track_form.title.$viewValue,
@@ -132,37 +135,15 @@
                         })
                     }
 
-                }      
+                }
 
-
-            vm.update_track=function(track_id){
-                $http({
-                    url:BASE_URL+'/api/genre',
-                    method:'get'
-                }).then(function successCallback(response){
-                    console.log('inside update_track')
-                    console.log(response)
-                    vm.genres = response.data.results   
-                    
-                })
-
-                $http({
-                    url:BASE_URL+'/api/track/'+track_id,
-                    method:'get'
-                }).then(function successCallback(response){
-                    console.log(response.data)
-                    vm.track_detail = response.data.results
-                    vm.track_name=vm.track_detail.name
-                    vm.rating=Number(vm.track_detail.rating)
-                    vm.sel_genre=vm.track_detail.genre
-                    vm.selected_genre = []
-                    angular.forEach(vm.sel_genre,function(value){
-                        vm.selected_genre.push(value.pk)
-                    });
-
-                })
-     
+            // Edit track intitialization.
+            vm.edit_track_init=function(track){
+                vm.edit=angular.copy(track);
             }
+
+
+            // sorting 
 
         }
 })();

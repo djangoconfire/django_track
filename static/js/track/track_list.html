@@ -15,25 +15,54 @@
 <!-- Track list from Django rest Api -->
 <div class="container">
     <div class="table-container">
-        <table class="table table-responsive table-bordered">
+        <table class="table table-responsive table-bordered" show-filter="true" >
             <thead>
-                <tr>
-                    <th>Track</th>
-                    <th>Genre</th>
-                    <th>Rating</th>
-                    <th>Operations</th>
-                </tr>
+                <thead>
+                    <tr>
+                        <td ng-click="sortType ='track' ;  sortReverse = !sortReverse">
+
+                            Track  
+                        
+                            <span ng-show="sortType == 'track' &&   !sortReverse" class="fa fa-caret-down"></span>
+
+                            <span ng-show="sortType == 'track' && sortReverse" class="fa fa-caret-up">
+                
+                        </td>
+
+                        <td ng-click="sortType ='genre' ;  sortReverse = !sortReverse">
+                            Genre  
+                        
+                            <span ng-show="sortType == 'genre' &&   !sortReverse" class="fa fa-caret-down"></span>
+
+                            <span ng-show="sortType == 'genre' && sortReverse" class="fa fa-caret-up">                       
+
+                        </td>
+                        
+                        <td ng-click="sortType ='rating' ;  sortReverse = !sortReverse">
+                    
+                             Rating  
+                        
+                            <span ng-show="sortType == 'rating' &&   !sortReverse" class="fa fa-caret-down"></span>
+
+                            <span ng-show="sortType == 'rating' && sortReverse" class="fa fa-caret-up">
+                        </td>
+
+                        <td>Operations</td>
+                    </tr>
+                </thead>
             </thead>
-            <tr ng-repeat="track in vm.tracks | filter:query">
+            <tr ng-repeat="track in vm.tracks | filter:query |  orderBy:sortType:sortReverse">
                     
                 <td>
                     <strong>{{track.title}}</strong>
                 </td>
 
 
-                <td ng-repeat="genre in track.genre">
-                    <strong>{{genre.name}}</strong>
+                <td ng-show="track.genres.length!=0">
+                    <span ng-repeat="genre in track.genre">[&nbsp;{{genre.name}}&nbsp;&nbsp;]&nbsp;</span> 
                 </td>
+
+                <td ng-show="track.genre.length==0">Not Found</td>
 
                 <td>
                     {{ track.rating }}
@@ -42,7 +71,7 @@
                 <td>
                     <center>   
                         <button class="btn btn-success" data-toggle="modal"
-                            data-target="#update_track" ng-click="vm.update_track(track.id)">
+                            data-target="#update_track" ng-click="vm.edit_track_init(track)">
                             <i class="fa fa-pencil" aria-hidden="true"></i>
                         </button>          
                     </center>
