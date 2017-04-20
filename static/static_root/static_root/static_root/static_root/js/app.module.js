@@ -8,6 +8,8 @@
         'ngResource',
         'ngStorage',
         'ngMessages',
+        'jcs-autoValidate',
+        'angular-rating',
         // 'angular-clipboard',
 
         // Custom modules
