@@ -12,7 +12,7 @@
 </div>         
 
 
-<!-- Track Modal Pop up here -->
+<!-- Add New Track Modal Pop up here -->
 <div id="new_track" class="modal fade" role="dialog" ng-init="vm.track_initialize()">
     <div class="modal-dialog">
         <!-- Modal content-->
@@ -25,7 +25,7 @@
                 <form class="form-horizontal" ng-submit="vm.add_new_track(trackData)">
                     <div class="form-group" >
                         <div class="col-sm-12">
-                            <input type="text" name="track_title" class="form-control" placeholder="Track Title" id="track_title" ng-model="vm.trackData.title">
+                            <input type="text" name="title" class="form-control" placeholder="Track Title" id="track_title" ng-model="vm.trackData.title">
                         </div>
                     </div>
 
@@ -53,8 +53,8 @@
     </div>
 </div>
 
-<!-- Track list here  -->
 
+<!-- Track list from Django rest Api -->
 <div class="container">
     <div class="table-container">
         <table class="table table-responsive table-bordered">
@@ -66,15 +66,15 @@
                     <th>Operations</th>
                 </tr>
             </thead>
-            <tr ng-repeat="track in vm.tracks | orderBy:'-id' | filter:query ">
+            <tr ng-repeat="track in vm.tracks | filter:query">
                     
                 <td>
                     <strong>{{track.title}}</strong>
                 </td>
 
 
-                <td>
-                    <strong>{{track.genre}}</strong>
+                <td ng-repeat="genre in track.genre">
+                    <strong>{{genre.name}}</strong>
                 </td>
 
                 <td>

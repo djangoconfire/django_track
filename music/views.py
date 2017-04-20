@@ -1,7 +1,7 @@
 from rest_framework import permissions
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
-from rest_framework.sttaus import HTTP_200_OK,HTTP_400_BAD_REQUEST
+from rest_framework.status import HTTP_200_OK,HTTP_400_BAD_REQUEST
 from rest_framework import generics
 from models import Tracks,Music
 import json
@@ -148,16 +148,28 @@ class TrackApiView(ModelViewSet):
             track_id = request.POST['track_id']
             track_instance= Tracks.objects.get(id=track_id)
             genres_data = request.POST['genre']
+            print genres_data
+            print 'debugging'
             genres_data = json.loads(genres_data)
+            print genres_data
+            # Music.objects.filter(track=track_instance).delete()
             track_instance.title = title
             track_instance.rating = rating
 
-            for genre in genres_data:
+            for genre_item in genres_data:
+                print genre_item['pk']
+                print '###########'   
+
+                # From here this part of code skipped during updating the form  
+            for genre_item in genres_data:
                 try:
-                    genre_instance = Genre.objects.get(id=genre)
-                    Music.objects.create(track=track_instance,genre=genre_instance).save()
+                    genre_instance = Genre.objects.get(id=genre['pk'])
+                    print genre_instance 
+                    Music.objects.create(track=track_instance,genre=genre_instance)
                 except:
                     pass
+
+                    #  to here
             track_instance.save()
             return Response(status=HTTP_200_OK)
         except:
