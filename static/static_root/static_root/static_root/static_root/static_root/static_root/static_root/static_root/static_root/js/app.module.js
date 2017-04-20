@@ -8,7 +8,7 @@
         'ngResource',
         'ngStorage',
         'ngMessages',
-        'angular-clipboard',
+        // 'angular-clipboard',
 
         // Custom modules
         'app.core',
@@ -16,5 +16,6 @@
         'app.genre',
         'app.home',
         'app.notify',
+        // 'app.star',
     ]);
 })();

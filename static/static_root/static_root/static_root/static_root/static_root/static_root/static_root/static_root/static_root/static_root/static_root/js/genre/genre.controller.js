@@ -5,9 +5,9 @@
         .module('app.genre')
         .controller('genreController', genreController);
 
-    genreController.$inject = ['$location', '$localStorage','$http', '$timeout', 'genreService','$routeParams', 'notifyService','BASE_URL'];
+    genreController.$inject = ['$http','$location', '$localStorage', '$timeout', 'genreService','$routeParams', 'notifyService','BASE_URL'];
 
-    function genreController($location, $localStorage, $timeout, $http, genreService,$routeParams, notifyService,BASE_URL) {
+    function genreController( $http,$location, $localStorage, $timeout, genreService,$routeParams, notifyService,BASE_URL) {
         var vm = this;
 
 
@@ -46,10 +46,8 @@
                 url: BASE_URL.URL + '/api/genre/create/',
                 method:"POST",
                 data:form_data,
-                headers:{
-                    "Content-Type": 'application/x-www-form-urlencoded'
-                }
             }).then(function successCallback(response){
+                $('#new_genre').modal('hide');
                 notifyService.display("Genre Added Successfully");
             },function errorCallback(response){
                 notifyService.display("Something went wrong");
