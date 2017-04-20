@@ -9,10 +9,10 @@
     function trackService($resource) {
         return {
             track: function(token) {
-                return $resource('/api/track/:id/', null, {
+                return $resource('/api/track/', null, {
                     query: {
                         method: 'GET',
-                        isArray: true,
+                        isArray: false,
                         headers: {
                             'Authorization': 'Token ' + token
                         }

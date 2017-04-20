@@ -9,7 +9,7 @@
 
     function configFunction($routeProvider, STATIC_URL) {
         $routeProvider.when('/', {
-            templateUrl: STATIC_URL + '/home/home.html'
+            templateUrl: STATIC_URL + 'home/home.html'
         });
 
          // $locationProvider.html5Mode({
