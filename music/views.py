@@ -1,7 +1,7 @@
 from rest_framework import permissions
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework.sttaus import HTTP_200_OK,HTTP_400_BAD_REQUEST
 from rest_framework import generics
 from models import Tracks,Music
 import json
@@ -63,7 +63,7 @@ class GenreDeleteApiView(DestroyAPIView):
             genre_dict['name'] = genre_instance.name
             return Response({"results":genre_dict},status=status.HTTP_200_OK)
         except:
-            return Response(status=status.HTTP_200_OK)
+            return Response(status=HTTP_200_OK)
 
 
 class TrackApiView(ModelViewSet):
@@ -90,7 +90,7 @@ class TrackApiView(ModelViewSet):
             track_dict['genre'] = genre_list
             track_data.append(track_dict)
 
-        return Response({"results":track_data},status=status.HTTP_200_OK)
+        return Response({"results":track_data},status=HTTP_200_OK)
 
 
     def create_new_track(self,request,*args,**kwargs):
@@ -109,10 +109,10 @@ class TrackApiView(ModelViewSet):
                     Music.objects.create(track=tracks_instance,genre=genre_instance)
                 except:
                     pass
-            return Response(status=status.HTTP_200_OK)
+            return Response(status=HTTP_200_OK)
 
         except:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            return Response(status=HTTP_400_BAD_REQUEST)
 
     def track_detail(self,request,*args,**kwargs):
         print 'inside track detail'
@@ -134,7 +134,7 @@ class TrackApiView(ModelViewSet):
 
             return Response({"results":track_data})
         except:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            return Response(status=HTTP_400_BAD_REQUEST)
         
 
 
@@ -159,9 +159,9 @@ class TrackApiView(ModelViewSet):
                 except:
                     pass
             track_instance.save()
-            return Response(status=status.HTTP_200_OK)
+            return Response(status=HTTP_200_OK)
         except:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            return Response(status=HTTP_400_BAD_REQUEST)
           
 
 
