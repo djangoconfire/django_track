@@ -139,7 +139,7 @@ class TrackApiView(ModelViewSet):
 
 
 
-    def update(self,request,*args,**kwarsg):
+    def update_track(self,request,*args,**kwarsg):
         print 'inside updating track data'
         try:
             title = request.POST['title']
