@@ -3,5 +3,5 @@
 
     angular
         .module('app.core')
-        .constant('BASE_URL',"https://say2gov-music-track.herokuapp.com");
+        .constant('BASE_URL',"http://say2gov-music-track.herokuapp.com");
 })();

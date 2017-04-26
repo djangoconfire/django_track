@@ -97,7 +97,6 @@ class TrackApiView(ModelViewSet):
         print 'inside create new track'
         try:
             title = request.POST['title']
-            print title
             rating = request.POST['rating']
             genre_list = request.POST.get('genre')
             genre_list = json.loads(genre_list)
@@ -137,8 +136,6 @@ class TrackApiView(ModelViewSet):
             return Response(status=HTTP_400_BAD_REQUEST)
         
 
-
-
     def update_track(self,request,*args,**kwarsg):
         print 'inside updating track data'
         try:
@@ -155,8 +152,7 @@ class TrackApiView(ModelViewSet):
             Music.objects.filter(track=track_instance).delete()
             track_instance.title = title
             track_instance.rating = rating
-
-                # From here this part of code skipped during updating the form  
+  
             for genre_item in genres_data:
                 try:
                     genre_instance = Genre.objects.get(id=genre_item)
@@ -165,7 +161,6 @@ class TrackApiView(ModelViewSet):
                 except:
                     pass
 
-                    #  to here
             track_instance.save()
             return Response(status=HTTP_200_OK)
         except:
