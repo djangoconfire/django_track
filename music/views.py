@@ -67,7 +67,7 @@ class GenreDeleteApiView(DestroyAPIView):
 
 
 class TrackApiView(ModelViewSet):
-    queryset = Tracks.objects.all().order_by('-pk')
+    queryset = Tracks.objects.all().order_by('id')
     serializer_class = TrackSerializer
     permission_classes = [permissions.AllowAny]
 
@@ -152,18 +152,14 @@ class TrackApiView(ModelViewSet):
             print 'debugging'
             genres_data = json.loads(genres_data)
             print genres_data
-            # Music.objects.filter(track=track_instance).delete()
+            Music.objects.filter(track=track_instance).delete()
             track_instance.title = title
             track_instance.rating = rating
-
-            for genre_item in genres_data:
-                print genre_item['pk']
-                print '###########'   
 
                 # From here this part of code skipped during updating the form  
             for genre_item in genres_data:
                 try:
-                    genre_instance = Genre.objects.get(id=genre['pk'])
+                    genre_instance = Genre.objects.get(id=genre_item)
                     print genre_instance 
                     Music.objects.create(track=track_instance,genre=genre_instance)
                 except:

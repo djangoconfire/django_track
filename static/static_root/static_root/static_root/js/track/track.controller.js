@@ -90,9 +90,6 @@
                         }
                     }).then(function successCallback(response){
                         $('#genre').select2('val',"")
-                        vm.title=undefined
-                        vm.rating=undefined
-                        vm.genre_list=undefined
                         $('#new_track').modal('hide');
                         notifyService.display("Track Added Successfully");
                         $timeout(function() {

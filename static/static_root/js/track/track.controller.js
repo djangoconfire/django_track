@@ -13,6 +13,7 @@
             vm.track = '';
 
             vm.track_initialize=track_initialize;
+            vm.edit_track_initialize=edit_track_initialize;
 
             vm.trackData = {
                 title: '',
@@ -59,6 +60,25 @@
                 }
 
 
+            function edit_track_initialize(){
+              var query = genreService.genre($localStorage.token).query();
+                query.$promise
+                .then(function(data) {
+                    // console.log(data)
+                    vm.genre_list = data.results;
+                }).catch(function(error) {
+                    console.log(error);
+                    vm.genre_list = error;
+                });
+
+                $("#edit_genre").select2({
+                    tags: true,
+                    tokenSeparators: [',', ' ']
+                })
+            }
+   
+
+
             // Add new Track
             vm.add_new_track=function(track_form) {
                 console.log(vm.track_form)
@@ -90,6 +110,9 @@
                         }
                     }).then(function successCallback(response){
                         $('#genre').select2('val',"")
+                        vm.title=""
+                        vm.genre=""
+                        vm.rating=""
                         $('#new_track').modal('hide');
                         notifyService.display("Track Added Successfully");
                         $timeout(function() {
@@ -110,32 +133,39 @@
             vm.update_track=function(track_edit_form){
 
                 console.log(vm.track_edit_form);
-                console.log('eeeeeeeeeeeeeeee')
-                var genre_data=[]
-                    angular.forEach($("#genre").val(),function(value){
-                        vm.genre_data.push(Number(value))
-                    })
-                
-                console.log(vm.genre_data)
+               
 
                 if(vm.track_edit_form.$valid){
+
+                   vm.genredata_list = $("#edit_genre").select2('data')
+                    vm.genre_list = []
+                
+                    angular.forEach(vm.genredata_list,function(value){
+                        vm.genre_list.push(value.id)
+                    
+                    })
+
+
+                    console.log(vm.genre_list)
+
                     var form_data = 
                         {'title':vm.track_edit_form.title.$viewValue,
                         'rating':vm.track_edit_form.rating.$viewValue,
-                        'genre':JSON.stringify(vm.genre_data),
+                        'genre':JSON.stringify(vm.genre_list),
                         'track_id':vm.track_id
                     }
 
                     console.log(form_data)
             
                     $http({
-                        url:BASE_URL+"/api/track/update/",
+                        url:BASE_URL+'/api/track/update/',
                         method:"post",
                         data:$.param(form_data),
                         headers:{
-                                "Content-Type": 'application/x-www-form-urlencoded'
-                                }
+                            "Content-Type": 'application/x-www-form-urlencoded'
+                        }
                         }).then(function successCallback(response){
+                                $('#edit_genre').select2('val',"")
                                 $('#update_track').modal('hide');
                                 notifyService.display("Track Updated Successfully");
                                 $timeout(function() {
@@ -178,9 +208,9 @@
                 }
 
                 // dropdown change event 
-                vm.update=function(item){
-                    console.log(item);
-                }
+                vm.update=function(){
+                    console.log('dropdown change event fired')
+                } 
 
 
 

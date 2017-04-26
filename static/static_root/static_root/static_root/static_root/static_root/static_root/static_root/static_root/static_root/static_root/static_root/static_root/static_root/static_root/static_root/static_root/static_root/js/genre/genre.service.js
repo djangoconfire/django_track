@@ -12,13 +12,6 @@
                 return $resource('/api/genre/:id/', null, {
                     query: {
                         method: 'GET',
-                        isArray: true,
-                        headers: {
-                            'Authorization': 'Token ' + token
-                        }
-                    },
-                    save: {
-                        method: 'POST',
                         isArray: false,
                         headers: {
                             'Authorization': 'Token ' + token

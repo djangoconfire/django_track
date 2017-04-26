@@ -21,5 +21,8 @@ class Tracks(models.Model):
 
 class Music(models.Model):
     track       =models.ForeignKey(Tracks,null=False)
-    genre       =models.ForeignKey(Genre,null=False)        
+    genre       =models.ForeignKey(Genre,null=False) 
+
+    class Meta:
+    	ordering=['-track_id']     
     
