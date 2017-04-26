@@ -65,7 +65,7 @@
                 <td ng-show="track.genre.length==0">Not Found</td>
 
                 <td>
-                    {{ track.rating }}
+                    <rating value="track.rating" max="10"></rating>
                 </td>
                 
                 <td>
@@ -95,15 +95,16 @@
                 <div class="form-horizontal" ng-form name="vm.track_form">
                     <div class="form-group" >
                         <div class="col-sm-12">
-                            <input type="text" name="title" class="form-control" placeholder="Track Title" id="track_title" ng-model="title" required>
+                            <input type="text" name="title" class="form-control" placeholder="Track Title" id="track_title" ng-model="title" ng-minlength="4" ng-maxlength="12" required>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="col-sm-12">
-                            <select class="form-control" id="genre" ng-model="genre" ng-options="genre.name for genre in vm.genre_list track by  genre.id" name="genre" multiple>
+                            <select class="form-control" id="genre" ng-model="genre" ng-options="genre as genre.name for genre in vm.genre_list track by  genre.id" name="genre" multiple required>
                           
                             </select>
+
                         </div>
                     </div>
 
@@ -143,7 +144,7 @@
 
                     <div class="form-group">
                         <div class="col-sm-12">
-                            <select class="form-control genre_list" id="genre"  ng-model="vm.genre" name="genre" multiple>
+                            <select class="form-control" id="edit_genre"  ng-model="vm.genre" name="genre" multiple ng-change="vm.update(genre)">
                                 <option ng-repeat="genre in vm.genre_list track by genre.id" ng-value="genre.id" ng-selected="vm.genre_selected.indexOf(genre.id)> -1">{{genre.name}}</option>
               
                             </select>

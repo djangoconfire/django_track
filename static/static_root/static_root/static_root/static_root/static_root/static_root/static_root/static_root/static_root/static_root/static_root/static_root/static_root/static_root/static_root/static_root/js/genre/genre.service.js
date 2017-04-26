@@ -9,14 +9,36 @@
     function genreService($resource) {
         return {
             genre: function(token) {
-                return $resource('/api/genre/:id/', null, {
+                return $resource('/api/genre/:id', null, {
                     query: {
                         method: 'GET',
                         isArray: false,
                         headers: {
                             'Authorization': 'Token ' + token
                         }
+                    },
+                       save: {
+                        method: 'POST',
+                        isArray: false,
+                        headers: {
+                            'Authorization': 'Token ' + token
+                        }
+                    },
+                    delete: {
+                        method: 'DELETE',
+                        isArray: false,
+                        headers: {
+                            'Authorization': 'Token ' + token
+                        }
+
+                    },
+                   update: {
+                    method: 'PATCH',
+                    isArray: false,
+                    headers: {
+                        'Authorization': 'Token ' + token
                     }
+}
                 });
             }
         };

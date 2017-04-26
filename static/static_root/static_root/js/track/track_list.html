@@ -95,13 +95,13 @@
                 <div class="form-horizontal" ng-form name="vm.track_form">
                     <div class="form-group" >
                         <div class="col-sm-12">
-                            <input type="text" name="title" class="form-control" placeholder="Track Title" id="track_title" ng-model="title" ng-minlength="4" ng-maxlength="12" required>
+                            <input type="text" name="title" class="form-control" placeholder="Track Title" id="track_title" ng-model="vm.title" ng-minlength="4" ng-maxlength="12" required>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="col-sm-12">
-                            <select class="form-control" id="genre" ng-model="genre" ng-options="genre as genre.name for genre in vm.genre_list track by  genre.id" name="genre" multiple required>
+                            <select class="form-control" id="genre" ng-model="vm.genre" ng-options="genre as genre.name for genre in vm.genre_list track by genre.id" name="genre" multiple required>
                           
                             </select>
 
@@ -110,7 +110,7 @@
 
                     <div class="form-group">
                         <div class="col-sm-12">
-                            <input  type="number" max="10" min="0" step=.5  class="form-control" name="rating" id="ratimg" ng-model="rating">
+                            <input  type="number" max="10" min="0" step=.5  class="form-control" name="rating" id="ratimg" ng-model="vm.rating">
                         </div>
                     </div>
 
@@ -126,7 +126,7 @@
 
 
 <!-- track update modal pop up -->
-<div id="update_track" class="modal fade" role="dialog" ng-init="vm.track_initialize()">
+<div id="update_track" class="modal fade" role="dialog" ng-init="vm.edit_track_initialize()">
     <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content">
@@ -144,7 +144,7 @@
 
                     <div class="form-group">
                         <div class="col-sm-12">
-                            <select class="form-control" id="edit_genre"  ng-model="vm.genre" name="genre" multiple ng-change="vm.update(genre)">
+                            <select class="form-control" id="edit_genre"  ng-model="vm.genre" name="genre" multiple ng-change="vm.update()">
                                 <option ng-repeat="genre in vm.genre_list track by genre.id" ng-value="genre.id" ng-selected="vm.genre_selected.indexOf(genre.id)> -1">{{genre.name}}</option>
               
                             </select>
@@ -157,7 +157,7 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="btn btn-primary" ng-click="vm.update_track(track_edit_form)">Submit</button>
+                    <button type="submit" class="btn btn-primary" ng-click="vm.update_track(track_edit_form)"  ng-disabled="vm.track_edit_form.$invalid">Submit</button>
                 </form>
             </div>
 

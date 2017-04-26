@@ -3,6 +3,5 @@
 
     angular
         .module('app.core')
-        .constant('BASE_URL', {
-        	'URL' : 'http://localhost:8000'});
+        .constant('BASE_URL',"http://localhost:8000");
 })();

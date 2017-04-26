@@ -57,7 +57,7 @@
                 <form class="form-horizontal" ng-submit="vm.add_new_genre(GenreData)">
                     <div class="form-group" >
                         <div class="col-sm-12">
-                            <input type="text" name="genre"  id="genre" class="form-control" placeholder="Enter genre name" ng-model="vm.GenreData.name">
+                            <input type="text" name="genre"  id="genre" class="form-control" placeholder="Enter genre name" ng-model="vm.GenreData.name" ng-minlength="3" ng-maxlength="12" required>
                         </div>
                     </div>
 

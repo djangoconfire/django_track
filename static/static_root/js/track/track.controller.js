@@ -41,7 +41,7 @@
                     });
                 }
 
-            // Intiliaze the track
+            // Intiliaze the create track form 
             function track_initialize(){
                   var query = genreService.genre($localStorage.token).query();
                     query.$promise
@@ -59,7 +59,7 @@
                     })
                 }
 
-
+            // initializing edit track form
             function edit_track_initialize(){
               var query = genreService.genre($localStorage.token).query();
                 query.$promise
@@ -131,10 +131,6 @@
 
             // update existing track
             vm.update_track=function(track_edit_form){
-
-                console.log(vm.track_edit_form);
-               
-
                 if(vm.track_edit_form.$valid){
 
                    vm.genredata_list = $("#edit_genre").select2('data')
@@ -145,8 +141,7 @@
                     
                     })
 
-
-                    console.log(vm.genre_list)
+                    // console.log(vm.genre_list)
 
                     var form_data = 
                         {'title':vm.track_edit_form.title.$viewValue,
@@ -155,7 +150,7 @@
                         'track_id':vm.track_id
                     }
 
-                    console.log(form_data)
+                    // console.log(form_data)
             
                     $http({
                         url:BASE_URL+'/api/track/update/',
@@ -181,9 +176,7 @@
                 }
 
  
-
-
-             // initialize edit  track form 
+             // initialize edit  track form with data
             vm.edit_track=function(track_id){
 
                 $http({
@@ -207,12 +200,10 @@
                     })
                 }
 
-                // dropdown change event 
+                // dropdown change event fired
                 vm.update=function(){
                     console.log('dropdown change event fired')
                 } 
-
-
 
         }
 })();
